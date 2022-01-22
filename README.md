@@ -38,3 +38,24 @@ No more issue ATM.
 Alex Chartier found a working solution.
 
 If someone finds an issue, please tell us.
+
+
+# Development build
+
+Build uses Phing to package plugin into an installer.
+
+## Install Phing
+
+To install Phing globally, use Composer and run:
+
+```
+composer global require phing/phing
+```
+
+## Build packages for install
+
+```
+phing
+```
+
+Installer is output to the ```dist``` directory.

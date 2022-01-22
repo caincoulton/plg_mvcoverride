@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="package_mvcoverride_build" default="build-all"> 	 
+	<target name="clean">
+		<echo msg="Cleaning directories" />
+		<delete dir="build" includeemptydirs="true" />
+		<delete dir="dist" includeemptydirs="true" />
+	</target>
+
+	<target name="build-all">
+		<phingcall target="clean" />
+		<phingcall target="build" />
+	</target>
+
+	<target name="build">
+		<echo msg="Building package" />
+		<mkdir dir="build" />
+		
+		<copy todir="build" >
+          <fileset dir=".">
+			<include name="plg_system_mvcoverride/**" />
+          </fileset>
+        </copy>
+
+        <reflexive>
+            <fileset dir="build">
+				<include name="plg_system_mvcoverride/mvcoverride.xml"/>
+            </fileset>
+        </reflexive>
+		
+		<mkdir dir="dist" />
+
+		<zip destfile="dist/plg_system_mvcoverride.zip" basedir="build/plg_system_mvcoverride" />
+
+		<delete dir="build" includeemptydirs="true" />
+	</target>
+	
+</project>
