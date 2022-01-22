@@ -2,6 +2,8 @@
 // no direct access
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+
 /**
  * Module helper class
  *
@@ -9,7 +11,7 @@ defined('_JEXEC') or die;
  * @subpackage  Module
  * @since       11.1
  */
-abstract class JModuleHelper extends JModuleHelperLibraryDefault
+abstract class ModuleHelper extends ModuleHelperDefault
 {
 	/**
 	 * An array to hold included paths
@@ -38,7 +40,7 @@ abstract class JModuleHelper extends JModuleHelperLibraryDefault
 			JProfiler::getInstance('Application')->mark('beforeRenderModule ' . $module->module . ' (' . $module->title . ')');
 		}
 
-		$app = JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		// Record the scope.
 		$scope = $app->scope;
@@ -62,7 +64,7 @@ abstract class JModuleHelper extends JModuleHelperLibraryDefault
 		// $module->user is a check for 1.0 custom modules and is deprecated refactoring
 		if (empty($module->user))
 		{
-			$lang = JFactory::getLanguage();
+			$lang = Factory::getLanguage();
 
 			// 1.5 or Core then 1.6 3PD
 			$lang->load($module->module, JPATH_BASE, null, false, false) ||
@@ -155,7 +157,7 @@ abstract class JModuleHelper extends JModuleHelperLibraryDefault
 	 */
 	public static function getLayoutPath($module, $layout = 'default')
 	{
-		$template = JFactory::getApplication()->getTemplate();
+		$template = Factory::getApplication()->getTemplate();
 		$defaultLayout = $layout;
 
 		if (strpos($layout, ':') !== false)

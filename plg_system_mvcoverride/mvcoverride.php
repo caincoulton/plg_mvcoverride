@@ -2,6 +2,8 @@
 // no direct access
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+
 jimport('joomla.plugin.plugin');
 jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.file');
@@ -163,38 +165,73 @@ class PlgSystemMVCOverride extends JPlugin
         $JPATH_COMPONENT = JPATH_BASE.'/components/'.$option;
         $files = array();
 
-        //check if default controller exists
-        if (JFile::exists($JPATH_COMPONENT.'/controller.php'))
-        {
-            $files[] = $JPATH_COMPONENT.'/controller.php';
-        }
+        $jV = new JVersion();
 
-        //check if controllers folder exists
-        if (JFolder::exists($JPATH_COMPONENT.'/controllers'))
-        {
-            $controllers = JFolder::files($JPATH_COMPONENT.'/controllers', '.php', false, true);
-            $files = array_merge($files, $controllers);
-        }
-
-        //check if models folder exists
-        if (JFolder::exists($JPATH_COMPONENT.'/models'))
-        {
-            $models = JFolder::files($JPATH_COMPONENT.'/models', '.php', false, true);
-            $files = array_merge($files, $models);
-        }
-
-        //check if views folder exists
-        if (JFolder::exists($JPATH_COMPONENT.'/views'))
-        {
-            //reading view folders
-            $views = JFolder::folders($JPATH_COMPONENT.'/views');
-            foreach ($views as $view)
+		// Joomla 3
+		if (version_compare($jV->getShortVersion(), "3", "=")) {
+            //check if default controller exists
+            if (JFile::exists($JPATH_COMPONENT.'/controller.php'))
             {
-                //get view formats files
-                $viewsFiles = JFolder::files($JPATH_COMPONENT.'/views/'.$view, '.php', false, true);
-                $files = array_merge($files, $viewsFiles);
+                $files[] = $JPATH_COMPONENT.'/controller.php';
             }
-        }
+
+            //check if controllers folder exists
+            if (JFolder::exists($JPATH_COMPONENT.'/controllers'))
+            {
+                $controllers = JFolder::files($JPATH_COMPONENT.'/controllers', '.php', false, true);
+                $files = array_merge($files, $controllers);
+            }
+
+            //check if models folder exists
+            if (JFolder::exists($JPATH_COMPONENT.'/models'))
+            {
+                $models = JFolder::files($JPATH_COMPONENT.'/models', '.php', false, true);
+                $files = array_merge($files, $models);
+            }
+
+            //check if views folder exists
+            if (JFolder::exists($JPATH_COMPONENT.'/views'))
+            {
+                //reading view folders
+                $views = JFolder::folders($JPATH_COMPONENT.'/views');
+                foreach ($views as $view)
+                {
+                    //get view formats files
+                    $viewsFiles = JFolder::files($JPATH_COMPONENT.'/views/'.$view, '.php', false, true);
+                    $files = array_merge($files, $viewsFiles);
+                }
+            }
+		}
+
+		// Joomla 4
+		if (version_compare($jV->getShortVersion(), "4", ">=")) {
+			//check if controllers folder exists
+			if (JFolder::exists($JPATH_COMPONENT.'/src/Controller'))
+			{
+				$controllers = JFolder::files($JPATH_COMPONENT.'/src/Controller', '.php', false, true);
+				$files = array_merge($files, $controllers);
+			}
+			
+			//check if models folder exists
+			if (JFolder::exists($JPATH_COMPONENT.'/src/Model'))
+			{
+				$models = JFolder::files($JPATH_COMPONENT.'/src/Model', '.php', false, true);
+				$files = array_merge($files, $models);
+			}
+
+			//check if views folder exists
+			if (JFolder::exists($JPATH_COMPONENT.'/src/View'))
+			{
+				//reading view folders
+				$views = JFolder::folders($JPATH_COMPONENT.'/src/View');
+				foreach ($views as $view)
+				{
+					//get view formats files
+					$viewsFiles = JFolder::files($JPATH_COMPONENT.'/src/View/'.$view, '.php', false, true);
+					$files = array_merge($files, $viewsFiles);
+				}
+			}
+		}
 
         $return = array();
         //cleaning files
