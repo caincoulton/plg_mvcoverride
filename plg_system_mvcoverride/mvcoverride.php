@@ -52,7 +52,7 @@ class PlgSystemMVCOverride extends JPlugin
     {
         $option = JFactory::getApplication()->input->get('option');
 
-        if( empty($option) && JFactory::getApplication()->isSite() ) {
+        if( empty($option) && JFactory::getApplication()->isClient('site') ) {
             $menuDefault = JFactory::getApplication()->getMenu()->getDefault();
             if ($menuDefault == 0) return;
 
