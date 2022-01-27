@@ -36,10 +36,10 @@ class PlgSystemMVCOverride extends JPlugin
         }
         else
         {
-            JLoader::registerAlias('JModuleHelperLibraryDefault', '\\Joomla\\CMS\\Helper\\ModuleHelper', '5.0');
+            JLoader::registerAlias('ModuleHelperLibraryDefault', '\\Joomla\\CMS\\Helper\\ModuleHelper', '5.0');
         }
 
-        JLoader::register('JModuleHelper', __DIR__ . '/module/helper.php', true);
+        JLoader::register('ModuleHelper', __DIR__ . '/module/helper.php', true);
     }
 
     /**
@@ -117,8 +117,6 @@ class PlgSystemMVCOverride extends JPlugin
 
                         if (count($definesSourceOverride[0]))
                         {
-
-                        //throw new Exception(JText::_('Ckjhkjhkjh'));
                             throw new Exception(JText::_('Plugin MVC Override','Your override file use constants, please replace code constants<br />JPATH_COMPONENT -> JPATH_SOURCE_COMPONENT,<br />JPATH_COMPONENT_SITE -> JPATH_SOURCE_COMPONENT_SITE and<br />JPATH_COMPONENT_ADMINISTRATOR -> JPATH_SOURCE_COMPONENT_ADMINISTRATOR'));
                         }
                         else
